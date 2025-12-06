@@ -50,7 +50,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: SonarCloud Scan (Maven)
-        run: mvn sonar:sonar \
+        run: mvn clean verify sonar:sonar -B -e \
              -Dsonar.projectKey=GC-Bank \
              -Dsonar.organization=gayatri3497 \
              -Dsonar.host.url=https://sonarcloud.io \
