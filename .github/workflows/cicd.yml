@@ -40,20 +40,8 @@ jobs:
          run: gitleaks detect source code . -r gitleaks-report.json -f json   
 
 
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Install SonarQube scanner
-      uses: actions/checkout@v4
-      with:
-        version: '6.1.0.4477' # Specify the version if needed
-        javaDistribution: 'temurin' # Specify the Java distribution
-        javaVersion: '21' 
-
-  sonar_scan:
+  
+  build_project_sonar_scan:
      runs-on: ubuntu-latest
 
      steps:
