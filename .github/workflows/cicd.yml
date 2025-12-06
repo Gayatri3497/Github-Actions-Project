@@ -18,8 +18,11 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
-
+      run: mvn clean verify sonar:sonar \
+             -Dsonar.projectKey=GC-Bank \
+             -Dsonar.organization=gayatri3497 \
+             -Dsonar.host.url=https://sonarcloud.io \
+             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
   security-checks:
       runs-on: ubuntu-latest
 
