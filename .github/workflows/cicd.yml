@@ -3,6 +3,7 @@ name: cicd-pipeline
 on:
   push:
     branches: [ "main" ]
+  pull_request:
   
 jobs:
   compile:
@@ -41,28 +42,27 @@ jobs:
 
 
   
-  build_project_sonar_scan:
-     runs-on: ubuntu-latest
-
-     steps:
-       - uses: actions/checkout@v4
-         with:
-        # Disabling shallow clones is recommended for improving the relevancy of reporting
-           fetch-depth: 0
-       - name: SonarQube Scan
-         uses: SonarSource/sonarqube-scan-action@v6.0.0
-         env:
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-            SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
-
-       - name: SonarQube Quality Gate check
-         id: sonarqube-quality-gate-check
-         uses: sonarsource/sonarqube-quality-gate-action@v1
-         with:
+  sonar_scan:
+    runs-on: ubuntu-latest
+    needs: compile
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: SonarCloud Scan (Maven)
+        run: mvn sonar:sonar \
+             -Dsonar.projectKey=GC-Bank \
+             -Dsonar.organization=gayatri3497 \
+             -Dsonar.host.url=https://sonarcloud.io \
+             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      - name: SonarCloud Quality Gate
+        uses: sonarsource/sonarqube-quality-gate-action@v1
+        with:
           pollingTimeoutSec: 600
-         env:
+        env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+          SONAR_HOST_URL: https://sonarcloud.io
+
 
 
 
