@@ -40,10 +40,23 @@ jobs:
          run: gitleaks detect source code . -r gitleaks-report.json -f json   
 
 
-  build_project_and_sonar_scan:
+  build:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/checkout@v2
+
+    - name: Install SonarQube scanner
+      uses: nosinovacao/sonarscanner-action@v1
+      with:
+        version: '6.1.0.4477' # Specify the version if needed
+        javaDistribution: 'temurin' # Specify the Java distribution
+        javaVersion: '21' 
+
+  sonar_scan:
+     runs-on: ubuntu-latest
+
+     steps:
        - uses: actions/checkout@v4
          with:
         # Disabling shallow clones is recommended for improving the relevancy of reporting
