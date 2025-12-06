@@ -44,10 +44,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Install SonarQube scanner
-      uses: nosinovacao/sonarscanner-action@v1
+      uses: actions/checkout@v4
       with:
         version: '6.1.0.4477' # Specify the version if needed
         javaDistribution: 'temurin' # Specify the Java distribution
